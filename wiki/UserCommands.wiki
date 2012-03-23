@@ -1,0 +1,25 @@
+#summary List of commands users can send in SMS
+
+= Introduction =
+
+SMS messages send by users should have following format:
+ {{{<COMMAND> [parameter] [,...n]}}}
+
+Commands text is case-insensitive.
+
+= List of supported commands =
+  * ==Balance|Bal|Баланс|Бал==
+Has no parameters. Returns current balance on user account.
+
+*Not implemented yet*
+
+  * ==Transfer|Tran|Перевод|Пер==
+Transfers money from user's account to another user account.
+Parameters: 
+  # destination account number
+  # sum
+  # source account number (optional parameter. Should be used when SMS is being send from unregistered phone number)
+*Not implemented yet*
+
+
+_More commands will be added soon._
