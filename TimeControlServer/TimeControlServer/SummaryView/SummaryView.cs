@@ -12,24 +12,29 @@ namespace TimeControlServer
     public partial class SummaryView : Form
     {
         public Message messageToSend = new Message();
-        private List<string> _log = new List<string>();
-        public List<string> Log
-        {
-            get { return _log; }
-            set
-            {
-                _log = value;
-                listBoxOutbox.Items.Clear();
-                foreach (string str in _log)
-                    listBoxOutbox.Items.Add(str);
-            }
-        }
+        public List<string> Log = new List<string>();
+        delegate void AddLogItemCallback(string text);
+       
         ThreadManager threadManager;
         public SummaryView()
         {
-            threadManager = new ThreadManager(this);
-
             InitializeComponent();
+            threadManager = new ThreadManager(this);
+        }
+        public void AddLogMessage(string message)
+        {
+            if (this.listBoxLog.InvokeRequired)
+            {
+                AddLogItemCallback d = new AddLogItemCallback(AddLogMessage);
+                this.Invoke(d, new object[] { message });
+            }
+            else
+            {
+                Log.Add(message);
+                /*listBoxLog.Items.Clear();
+                foreach (string str in Log)*/
+                listBoxLog.Items.Add(message);
+            }
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
@@ -39,7 +44,7 @@ namespace TimeControlServer
                 this.messageToSend.number = textBoxNumber.Text;
                 this.messageToSend.text = textBoxMessageText.Text;
             }
-            ThreadManager.newMessageByUser.Set();
+            ThreadManager.newMessageInInbox.Set();
             // Debug code, need to delete
             /*MessageStorageModel model = new MessageStorageModel();
             model.Inbox.Add(this.messageToSend);

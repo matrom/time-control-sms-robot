@@ -57,6 +57,12 @@
     <Compile Include="SMSManager\Assessory classes\SMS.cs" />
     <Compile Include="SMSManager\Assessory classes\SMSBase.cs" />
     <Compile Include="SMSManager\Assessory classes\SMSStatusReport.cs" />
+    <Compile Include="SMSManager\SmsEmulator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SMSManager\SmsEmulator.Designer.cs">
+      <DependentUpon>SmsEmulator.cs</DependentUpon>
+    </Compile>
     <Compile Include="SMSManager\SMSManager.cs" />
     <Compile Include="SummaryView\SummaryController.cs" />
     <Compile Include="SummaryView\SummaryView.cs">
@@ -75,6 +81,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SMSManager\SmsEmulator.resx">
+      <DependentUpon>SmsEmulator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SummaryView\SummaryView.resx">
       <DependentUpon>SummaryView.cs</DependentUpon>
     </EmbeddedResource>

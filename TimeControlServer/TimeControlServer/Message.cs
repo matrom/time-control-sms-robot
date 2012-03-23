@@ -19,7 +19,7 @@ namespace TimeControlServer
             number = source.number;
             text = source.text;
         }
-        public string ToString()
+        public override string ToString()
         {
             return number + " " + text + " " + isProcessed.ToString(); 
         }
