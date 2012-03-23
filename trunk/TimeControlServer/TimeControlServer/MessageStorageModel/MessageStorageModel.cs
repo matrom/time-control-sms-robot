@@ -18,19 +18,25 @@ namespace TimeControlServer
             {
                 List<Message> InboxCashe = new List<Message>();
                 List<Message> OutboxCashe = new List<Message>();
+                bool messageProcessed = false;
                 lock (Inbox)
                     foreach(Message mes in Inbox)
                         if (!mes.isProcessed)
                         {
                             InboxCashe.Add(new Message(mes));
                             mes.isProcessed = true;
+                            messageProcessed = true;
                         }
-                foreach (Message mes in InboxCashe)
-                    OutboxCashe.Add(processMessage(mes));
-                lock (Outbox)
-                    foreach (Message mes in OutboxCashe)
-                        Outbox.Add(mes);
-                // Do something
+                if (messageProcessed)
+                {
+                    foreach (Message mes in InboxCashe)
+                        OutboxCashe.Add(processMessage(mes));
+                    lock (Outbox)
+                        foreach (Message mes in OutboxCashe)
+                            Outbox.Add(mes);
+                    ThreadManager.newMessageInOutbox.Set();
+                    processOutbox();
+                }
                 lock (stopThreadSynch)
                     localStop = stopThread;
             }
@@ -40,6 +46,17 @@ namespace TimeControlServer
             mes.isProcessed = false;
             mes.text = "Echo: " + mes.text;
             return mes;
+        }
+        public void processOutbox()
+        {
+            List<Message> OutboxCashe = new List<Message>();
+            lock (Outbox)
+                foreach (Message mes in Outbox)
+                    if (!mes.isProcessed)
+                    {
+                        OutboxCashe.Add(new Message(mes));
+                        mes.isProcessed = true;
+                    }
         }
     }
 }

@@ -33,8 +33,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxMessageText = new System.Windows.Forms.TextBox();
             this.buttonSend = new System.Windows.Forms.Button();
-            this.listBoxOutbox = new System.Windows.Forms.ListBox();
+            this.listBoxLog = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.listBoxInbox = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.listBoxOutbox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -81,30 +85,68 @@
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
-            // listBoxOutbox
+            // listBoxLog
             // 
-            this.listBoxOutbox.FormattingEnabled = true;
-            this.listBoxOutbox.Location = new System.Drawing.Point(42, 236);
-            this.listBoxOutbox.Name = "listBoxOutbox";
-            this.listBoxOutbox.Size = new System.Drawing.Size(388, 56);
-            this.listBoxOutbox.TabIndex = 5;
+            this.listBoxLog.FormattingEnabled = true;
+            this.listBoxLog.Location = new System.Drawing.Point(15, 236);
+            this.listBoxLog.Name = "listBoxLog";
+            this.listBoxLog.Size = new System.Drawing.Size(334, 56);
+            this.listBoxLog.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(39, 201);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.Size = new System.Drawing.Size(28, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Outbox:";
+            this.label3.Text = "Log:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(352, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Inbox:";
+            // 
+            // listBoxInbox
+            // 
+            this.listBoxInbox.FormattingEnabled = true;
+            this.listBoxInbox.Location = new System.Drawing.Point(355, 33);
+            this.listBoxInbox.Name = "listBoxInbox";
+            this.listBoxInbox.Size = new System.Drawing.Size(154, 264);
+            this.listBoxInbox.TabIndex = 8;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(513, 14);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Outbox:";
+            // 
+            // listBoxOutbox
+            // 
+            this.listBoxOutbox.FormattingEnabled = true;
+            this.listBoxOutbox.Location = new System.Drawing.Point(516, 33);
+            this.listBoxOutbox.Name = "listBoxOutbox";
+            this.listBoxOutbox.Size = new System.Drawing.Size(152, 264);
+            this.listBoxOutbox.TabIndex = 10;
             // 
             // SummaryView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(468, 319);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(689, 314);
             this.Controls.Add(this.listBoxOutbox);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.listBoxInbox);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.listBoxLog);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.textBoxMessageText);
             this.Controls.Add(this.label2);
@@ -124,8 +166,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxMessageText;
         private System.Windows.Forms.Button buttonSend;
-        private System.Windows.Forms.ListBox listBoxOutbox;
+        private System.Windows.Forms.ListBox listBoxLog;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox listBoxInbox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListBox listBoxOutbox;
     }
 }
 
