@@ -19,6 +19,13 @@ Parameters:
   # destination account number
   # sum
   # source account number (optional parameter. Should be used when SMS is being send from unregistered phone number)
+
+*Examples:*
+
+{{{Transfer 12345 300}}}
+
+{{{Transfer 12345 300 54321}}}
+
 *Not implemented yet*
 
 
