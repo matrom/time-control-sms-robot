@@ -32,6 +32,7 @@ namespace TimeControlServer
             summaryControllerThread = new Thread(summaryController.run);
             summaryControllerThread.Start();
             smsManager = new SMSManager();
+            smsManager.model = messageStorageModel;
             smsManagerThread = new Thread(smsManager.run);
             smsManagerThread.Start();
             
