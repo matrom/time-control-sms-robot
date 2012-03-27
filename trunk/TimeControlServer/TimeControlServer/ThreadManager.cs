@@ -13,6 +13,8 @@ namespace TimeControlServer
         Thread summaryControllerThread;
         SummaryController summaryController;
         public static EventWaitHandle newMessageInInbox = new AutoResetEvent(false);
+        public static EventWaitHandle newMessageByUser = new AutoResetEvent(false);
+        public static EventWaitHandle newMessageByDB = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInOutbox = new AutoResetEvent(false);
         SummaryView summaryView;
         public ThreadManager(SummaryView view)

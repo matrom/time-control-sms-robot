@@ -13,7 +13,10 @@ namespace TimeControlServer
     {
         public Message messageToSend = new Message();
         public List<string> Log = new List<string>();
+        public List<Message> OutboxCashe = new List<Message>();
+        public List<Message> InboxCashe = new List<Message>();
         delegate void AddLogItemCallback(string text);
+        delegate void ModifyInboxOrOutboxCallback(messageSource source);
        
         ThreadManager threadManager;
         public SummaryView()
@@ -33,9 +36,43 @@ namespace TimeControlServer
                 Log.Add(message);
                 /*listBoxLog.Items.Clear();
                 foreach (string str in Log)*/
-                listBoxLog.Items.Add(message);
+                listBoxLog.Items.Insert(0, "["+ DateTime.Now.ToString()+ "]: "+message);
             }
         }
+
+        public void ModifyInboxOrOutbox(messageSource source)
+        {
+            if (this.listBoxLog.InvokeRequired)
+            {
+                ModifyInboxOrOutboxCallback d = new ModifyInboxOrOutboxCallback(ModifyInboxOrOutbox);
+                this.Invoke(d, new object[] { source });
+            }
+            else
+            {
+                if (source == messageSource.Inbox)
+                {
+                    listBoxInbox.Items.Clear();
+                    foreach (Message mes in InboxCashe)
+                        listBoxInbox.Items.Insert(0, mes.ToString());
+                }
+                else
+                {
+                    listBoxOutbox.Items.Clear();
+                    foreach (Message mes in OutboxCashe)
+                        listBoxOutbox.Items.Insert(0, mes.ToString());
+
+                }
+
+                //Inbox.Add(message);
+                /*listBoxLog.Items.Clear();
+                foreach (string str in Log)*/
+                
+                //foreach (
+                //listBoxInbox.Items.Add(message);
+            }
+        }
+
+
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
@@ -44,7 +81,7 @@ namespace TimeControlServer
                 this.messageToSend.number = textBoxNumber.Text;
                 this.messageToSend.text = textBoxMessageText.Text;
             }
-            ThreadManager.newMessageInInbox.Set();
+            ThreadManager.newMessageByUser.Set();
             // Debug code, need to delete
             /*MessageStorageModel model = new MessageStorageModel();
             model.Inbox.Add(this.messageToSend);
