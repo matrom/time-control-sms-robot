@@ -29,6 +29,7 @@ namespace TimeControlServer
                         }
                 if (messageProcessed)
                 {
+                    ThreadManager.newMessageInInbox.Set();
                     foreach (Message mes in InboxCashe)
                         OutboxCashe.Add(processMessage(mes));
                     lock (Outbox)
