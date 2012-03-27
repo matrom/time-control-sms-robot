@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace TimeControlServer
 {
-    public enum messageSource { Inbox, Outbox, User };
+    public enum messageSource { Inbox, Outbox, User, DB, SMS };
     class SummaryController: IDisposable
     {
         
