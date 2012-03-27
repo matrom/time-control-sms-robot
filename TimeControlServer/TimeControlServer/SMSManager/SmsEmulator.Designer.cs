@@ -31,7 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxMessageText = new System.Windows.Forms.TextBox();
             this.buttonEmulateSMSReceive = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -60,14 +60,14 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Message Text";
             // 
-            // textBox1
+            // textBoxMessageText
             // 
-            this.textBox1.Location = new System.Drawing.Point(165, 97);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(192, 79);
-            this.textBox1.TabIndex = 3;
+            this.textBoxMessageText.Location = new System.Drawing.Point(165, 97);
+            this.textBoxMessageText.Multiline = true;
+            this.textBoxMessageText.Name = "textBoxMessageText";
+            this.textBoxMessageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxMessageText.Size = new System.Drawing.Size(192, 79);
+            this.textBoxMessageText.TabIndex = 3;
             // 
             // buttonEmulateSMSReceive
             // 
@@ -85,7 +85,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 318);
             this.Controls.Add(this.buttonEmulateSMSReceive);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxMessageText);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxFrom);
             this.Controls.Add(this.label1);
@@ -101,7 +101,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxFrom;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxMessageText;
         private System.Windows.Forms.Button buttonEmulateSMSReceive;
     }
 }
