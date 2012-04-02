@@ -11,7 +11,7 @@ namespace TimeControlServer
 {
     public partial class SmsEmulator : Form
     {
-        public Message mes = new Message();
+        public Message mes;// = new Message();
         public SmsEmulator()
         {
             InitializeComponent();
@@ -19,6 +19,7 @@ namespace TimeControlServer
 
         private void buttonEmulateSMSReceive_Click(object sender, EventArgs e)
         {
+            mes = new Message();
             mes.number = textBoxFrom.Text;
             mes.text = textBoxMessageText.Text;
             ThreadManager.newMessageBySMS.Set();
