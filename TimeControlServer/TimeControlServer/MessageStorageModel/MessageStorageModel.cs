@@ -42,6 +42,11 @@ namespace TimeControlServer
                     localStop = stopThread;
             }
         }
+
+        public void ProcessNewMessages(List<Message> InboxCashe)
+        {
+
+        }
         public Message processMessage(Message mes)
         {
             mes.isProcessed = false;
