@@ -20,7 +20,7 @@ namespace TimeControlServer
         private void buttonEmulateSMSReceive_Click(object sender, EventArgs e)
         {
             mes = new Message();
-            mes.number = textBoxFrom.Text;
+            mes.From = textBoxFrom.Text;
             mes.text = textBoxMessageText.Text;
             ThreadManager.newMessageBySMS.Set();
         }

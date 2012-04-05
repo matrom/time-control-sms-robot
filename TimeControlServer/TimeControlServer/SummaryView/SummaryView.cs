@@ -78,7 +78,7 @@ namespace TimeControlServer
         {
             lock (this.messageToSend)
             {
-                this.messageToSend.number = textBoxNumber.Text;
+                this.messageToSend.To = textBoxNumber.Text;
                 this.messageToSend.text = textBoxMessageText.Text;
             }
             ThreadManager.newMessageByUser.Set();
@@ -89,6 +89,11 @@ namespace TimeControlServer
             model.run();
             foreach (Message mes in model.Outbox)
                 listBoxOutbox.Items.Add(mes.ToString());*/
+        }
+
+        private void SummaryView_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

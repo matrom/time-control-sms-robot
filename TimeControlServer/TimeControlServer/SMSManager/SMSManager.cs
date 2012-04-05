@@ -37,11 +37,17 @@ namespace TimeControlServer
             while (!localStop)
             {
                 SMSManager.newSMSMessage.WaitOne();
-                while (messageSources.Count > 0)
+                int sourcesQty = 0;
+                lock (messageSources)
+                    sourcesQty = messageSources.Count;
+                while (sourcesQty > 0)
                 {
                     messageSource source;
                     lock (messageSources)
+                    {
                         source = messageSources.Pop();
+                        sourcesQty = messageSources.Count;
+                    }
 
 
 
@@ -70,20 +76,26 @@ namespace TimeControlServer
         {
             while (!StopListeners)
             {
-                ThreadManager.newMessageInOutbox.WaitOne();
-                // Process messages in Outbox by SMS sender module
 
-                SMSManager.newSMSMessage.Set();
+                bool success = ThreadManager.newMessageInOutbox_sms.WaitOne(5000);
+                // Process messages in Outbox by SMS sender module
+                if (success)
+                {
+                    SMSManager.newSMSMessage.Set();
+                }
             }
         }
         public void SMSListener()
         {
             while (!StopListeners)
             {
-                ThreadManager.newMessageBySMS.WaitOne();
-                lock (messageSources)
-                    messageSources.Push(messageSource.SMS);
-                SMSManager.newSMSMessage.Set();
+                bool success = ThreadManager.newMessageBySMS.WaitOne(5000);
+                if (success)
+                {
+                    lock (messageSources)
+                        messageSources.Push(messageSource.SMS);
+                    SMSManager.newSMSMessage.Set();
+                }
             }
         }
 
