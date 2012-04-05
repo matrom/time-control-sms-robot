@@ -44,11 +44,17 @@ namespace TimeControlServer
             while (!localStop)
             {
                 SummaryController.newMessage.WaitOne();
-                while (messageSources.Count > 0)
+                int sourcesQty = 0; 
+                lock (messageSources)
+                    sourcesQty = messageSources.Count;
+                while (sourcesQty > 0)
                 {
                     messageSource source;
                     lock (messageSources)
+                    {
                         source = messageSources.Pop();
+                        sourcesQty = messageSources.Count;
+                    }
 
 
 
@@ -79,7 +85,7 @@ namespace TimeControlServer
                     }
                     if (source == messageSource.Outbox)
                     {
-                        List<Message> OutboxCashe = new List<Message>();
+                        /*List<Message> OutboxCashe = new List<Message>();
                         lock (model.Outbox)
                         {
                             for (int i = OutboxItemsCount; i < model.Outbox.Count; i++)
@@ -91,10 +97,11 @@ namespace TimeControlServer
                             foreach (Message mes in OutboxCashe)
                                 summaryView.OutboxCashe.Add(new Message(mes));
                             summaryView.ModifyInboxOrOutbox(source);
-                        }
-                        /*foreach (Message mes in model.Outbox)
-                            if (!mes.isProcessed)
-                                OutboxCashe.Add(new Message(mes));*/
+                        }*/
+                        summaryView.OutboxCashe.Clear();
+                        foreach (Message mes in model.Outbox)
+                            summaryView.OutboxCashe.Add(new Message(mes));
+                        summaryView.ModifyInboxOrOutbox(source);
                         lock (summaryView.Log)
                             //summaryView.Log.Add("Message received");
                             summaryView.AddLogMessage("New message in Outbox");
@@ -111,31 +118,40 @@ namespace TimeControlServer
         {
             while (!StopListeners)
             {
-                ThreadManager.newMessageInInbox.WaitOne();
-                lock (messageSources)
-                    messageSources.Push(messageSource.Inbox);
+                bool success = ThreadManager.newMessageInInbox_view.WaitOne(5000);
+                if (success)
+                {
+                    lock (messageSources)
+                        messageSources.Push(messageSource.Inbox);
 
-                SummaryController.newMessage.Set();
+                    SummaryController.newMessage.Set();
+                }
             }
         }
         public void OutboxListener()
         {
             while (!StopListeners)
             {
-                ThreadManager.newMessageInOutbox.WaitOne();
-                lock (messageSources)
-                    messageSources.Push(messageSource.Outbox);
-                SummaryController.newMessage.Set();
+                bool success = ThreadManager.newMessageInOutbox_view.WaitOne(5000);
+                if (success)
+                {
+                    lock (messageSources)
+                        messageSources.Push(messageSource.Outbox);
+                    SummaryController.newMessage.Set();
+                }
             }
         }
         public void UserListener()
         {
             while (!StopListeners)
             {
-                ThreadManager.newMessageByUser.WaitOne();
-                lock (messageSources)
-                    messageSources.Push(messageSource.User);
-                SummaryController.newMessage.Set();
+                bool success = ThreadManager.newMessageByUser.WaitOne(5000);
+                if (success)
+                {
+                    lock (messageSources)
+                        messageSources.Push(messageSource.User);
+                    SummaryController.newMessage.Set();
+                }
             }
         }
         public void Dispose()
