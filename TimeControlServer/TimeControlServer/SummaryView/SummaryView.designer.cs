@@ -92,10 +92,12 @@
             // 
             // listBoxLog
             // 
+            this.listBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxLog.FormattingEnabled = true;
             this.listBoxLog.Location = new System.Drawing.Point(15, 236);
             this.listBoxLog.Name = "listBoxLog";
-            this.listBoxLog.Size = new System.Drawing.Size(334, 56);
+            this.listBoxLog.Size = new System.Drawing.Size(334, 69);
             this.listBoxLog.TabIndex = 5;
             // 
             // label3
@@ -182,7 +184,7 @@
             this.Controls.Add(this.textBoxNumber);
             this.Controls.Add(this.label1);
             this.Name = "SummaryView";
-            this.Text = "Form1";
+            this.Text = "Time control server";
             this.Load += new System.EventHandler(this.SummaryView_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

@@ -78,6 +78,7 @@ namespace TimeControlServer
         {
             lock (this.messageToSend)
             {
+                this.messageToSend.From = "Server";
                 this.messageToSend.To = textBoxNumber.Text;
                 this.messageToSend.text = textBoxMessageText.Text;
             }
