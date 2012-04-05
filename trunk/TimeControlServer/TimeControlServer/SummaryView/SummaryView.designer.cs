@@ -39,6 +39,11 @@
             this.listBoxInbox = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
             this.listBoxOutbox = new System.Windows.Forms.ListBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -105,7 +110,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(352, 14);
+            this.label4.Location = new System.Drawing.Point(10, 10);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 13);
             this.label4.TabIndex = 7;
@@ -113,16 +118,19 @@
             // 
             // listBoxInbox
             // 
+            this.listBoxInbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxInbox.FormattingEnabled = true;
-            this.listBoxInbox.Location = new System.Drawing.Point(355, 33);
+            this.listBoxInbox.Location = new System.Drawing.Point(3, 26);
             this.listBoxInbox.Name = "listBoxInbox";
-            this.listBoxInbox.Size = new System.Drawing.Size(154, 264);
+            this.listBoxInbox.Size = new System.Drawing.Size(142, 251);
             this.listBoxInbox.TabIndex = 8;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(513, 14);
+            this.label5.Location = new System.Drawing.Point(10, 10);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 9;
@@ -130,21 +138,42 @@
             // 
             // listBoxOutbox
             // 
+            this.listBoxOutbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxOutbox.FormattingEnabled = true;
-            this.listBoxOutbox.Location = new System.Drawing.Point(516, 33);
+            this.listBoxOutbox.Location = new System.Drawing.Point(3, 26);
             this.listBoxOutbox.Name = "listBoxOutbox";
-            this.listBoxOutbox.Size = new System.Drawing.Size(152, 264);
+            this.listBoxOutbox.Size = new System.Drawing.Size(164, 251);
             this.listBoxOutbox.TabIndex = 10;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(355, 33);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.listBoxInbox);
+            this.splitContainer1.Panel1.Controls.Add(this.label4);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.listBoxOutbox);
+            this.splitContainer1.Panel2.Controls.Add(this.label5);
+            this.splitContainer1.Size = new System.Drawing.Size(322, 279);
+            this.splitContainer1.SplitterDistance = 148;
+            this.splitContainer1.TabIndex = 11;
             // 
             // SummaryView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(689, 314);
-            this.Controls.Add(this.listBoxOutbox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.listBoxInbox);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBoxLog);
             this.Controls.Add(this.buttonSend);
@@ -154,6 +183,13 @@
             this.Controls.Add(this.label1);
             this.Name = "SummaryView";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.SummaryView_Load);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,6 +208,7 @@
         private System.Windows.Forms.ListBox listBoxInbox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBoxOutbox;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 
