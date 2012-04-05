@@ -60,8 +60,8 @@ namespace TimeControlServer
 
                     if (source == messageSource.User)
                     {
-                        lock (model.Inbox)
-                            model.Inbox.Add(new Message(summaryView.messageToSend));
+                        lock (model.Outbox)
+                            model.Outbox.Add(new Message(summaryView.messageToSend));
 
                         lock (summaryView.Log)
                             //summaryView.Log.Add("Message received");
@@ -81,7 +81,7 @@ namespace TimeControlServer
                         }
                         lock (summaryView.Log)
                             //summaryView.Log.Add("Message received");
-                            summaryView.AddLogMessage("New message in Inbox");
+                            summaryView.AddLogMessage("Inbox updated");
                     }
                     if (source == messageSource.Outbox)
                     {
@@ -104,7 +104,7 @@ namespace TimeControlServer
                         summaryView.ModifyInboxOrOutbox(source);
                         lock (summaryView.Log)
                             //summaryView.Log.Add("Message received");
-                            summaryView.AddLogMessage("New message in Outbox");
+                            summaryView.AddLogMessage("Outbox updated");
                     }
 
 
