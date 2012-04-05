@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace TimeControlServer
 {
@@ -11,7 +12,7 @@ namespace TimeControlServer
         public List<Message> Outbox = new List<Message>();
         public object stopThreadSynch = new object();
         public bool stopThread = false;
-        public void run()
+        /*public void run()
         {
             bool localStop = false;
             while (!localStop)
@@ -41,19 +42,81 @@ namespace TimeControlServer
                 lock (stopThreadSynch)
                     localStop = stopThread;
             }
-        }
+        }*/
 
-        public void ProcessNewMessages(List<Message> InboxCashe)
+        public void run()
         {
-
+             bool localStop = false;
+             while (!localStop)
+             {
+                 int i = 0;
+                 bool found = false;
+                 Message mes = new Message();
+                 lock(Inbox)
+                     while (!found && Inbox.Count > i)
+                     {
+                         if (Inbox[i].isProcessed == false)
+                         {
+                             mes = new Message(Inbox[i]);
+                             found = true;
+                         }
+                         i++;
+                     }
+                 if (found)
+                 {
+                     ThreadManager.newMessageInInbox.Set();
+                     // DEBUG: Imitation of business logic processing
+                     Thread.Sleep(2000);
+                     Message reply = processMessage(mes);
+                     lock (Inbox)
+                         foreach (Message m in Inbox)
+                             if (m.id == mes.id)
+                                 m.isProcessed = true;
+                     ThreadManager.newMessageInInbox.Set();
+                     
+                     lock (Outbox)
+                         Outbox.Add(reply);
+                     //ThreadManager.newMessageInOutbox.Set();
+                 }
+                 found = false;
+                 i = 0;
+                 mes = new Message();
+                 lock (Outbox)
+                     while (!found && Outbox.Count > i)
+                     {
+                         if (Outbox[i].isProcessed == false)
+                         {
+                             mes = new Message(Outbox[i]);
+                             found = true;
+                         }
+                         i++;
+                     }
+                 if (found)
+                 {
+                     ThreadManager.newMessageInOutbox.Set();
+                     // DEBUG: Imitation of message send
+                     Thread.Sleep(2000);
+                     lock (Outbox)
+                     {
+                         foreach (Message m in Outbox)
+                             if (m.id == mes.id)
+                                 m.isProcessed = true;
+                         //Outbox.Add(mes);
+                     }
+                     ThreadManager.newMessageInOutbox.Set();
+                 }
+             }
         }
+
         public Message processMessage(Message mes)
         {
-            mes.isProcessed = false;
-            mes.text = "Echo: " + mes.text;
-            return mes;
+            Message reply = new Message();
+            reply.CopyContents(mes);
+            reply.isProcessed = false;
+            reply.text = "Echo: " + reply.text;
+            return reply;
         }
-        public void processOutbox()
+        /*public void processOutbox()
         {
             List<Message> OutboxCashe = new List<Message>();
             lock (Outbox)
@@ -63,6 +126,6 @@ namespace TimeControlServer
                         OutboxCashe.Add(new Message(mes));
                         mes.isProcessed = true;
                     }
-        }
+        }*/
     }
 }
