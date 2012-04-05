@@ -7,7 +7,8 @@ namespace TimeControlServer
 {
     public class Message
     {
-        public string number;
+        public string From;
+        public string To;
         public string text;
         public bool isProcessed = false;
         public Guid id;
@@ -18,13 +19,21 @@ namespace TimeControlServer
 
         public Message(Message source)
         {
-            number = source.number;
+            From = source.From;
+            To = source.To;
             text = source.text;
             id = source.id;
+            isProcessed = source.isProcessed;
+        }
+        public void CopyContents(Message source)
+        {
+            From = source.From;
+            To = source.To;
+            text = source.text;
         }
         public override string ToString()
         {
-            return number + " " + text + " " + isProcessed.ToString() + " " + id.ToString();
+            return isProcessed.ToString() + " From "+From + " To " + To + " " + text + " " + id.ToString();
         }
     }
 }
