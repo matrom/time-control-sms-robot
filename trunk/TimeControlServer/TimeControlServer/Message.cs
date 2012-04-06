@@ -12,6 +12,7 @@ namespace TimeControlServer
         public string text;
         public bool isProcessed = false;
         public Guid id;
+        public DateTime timeStamp = DateTime.Now;
         public Message()
         {
             id = Guid.NewGuid();
