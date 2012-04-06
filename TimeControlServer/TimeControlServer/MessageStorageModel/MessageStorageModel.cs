@@ -12,6 +12,11 @@ namespace TimeControlServer
         public List<Message> Outbox = new List<Message>();
         public object stopThreadSynch = new object();
         public bool stopThread = false;
+        public DatabaseManager databaseManager = new DatabaseManager();
+        public MessageStorageModel()
+        {
+
+        }
         /*public void run()
         {
             bool localStop = false;
@@ -65,9 +70,12 @@ namespace TimeControlServer
                  if (found)
                  {
                      ThreadManager.newMessageInInbox.Set();
+                     databaseManager.LogMessage(mes);
                      // DEBUG: Imitation of business logic processing
                      Thread.Sleep(2000);
                      Message reply = processMessage(mes);
+                     mes.isProcessed = true;
+                     databaseManager.LogMessage(mes);
                      lock (Inbox)
                          foreach (Message m in Inbox)
                              if (m.id == mes.id)
@@ -94,8 +102,11 @@ namespace TimeControlServer
                  if (found)
                  {
                      ThreadManager.newMessageInOutbox.Set();
+                     databaseManager.LogMessage(mes);
                      // DEBUG: Imitation of message send
                      Thread.Sleep(2000);
+                     mes.isProcessed = true;
+                     databaseManager.LogMessage(mes);
                      lock (Outbox)
                      {
                          foreach (Message m in Outbox)
@@ -111,9 +122,10 @@ namespace TimeControlServer
         public Message processMessage(Message mes)
         {
             Message reply = new Message();
-            reply.CopyContents(mes);
+            //reply.CopyContents(mes);
+            reply.To = mes.From;
             reply.isProcessed = false;
-            reply.text = "Echo: " + reply.text;
+            reply.text = "Echo: " + mes.text;
             return reply;
         }
         /*public void processOutbox()
