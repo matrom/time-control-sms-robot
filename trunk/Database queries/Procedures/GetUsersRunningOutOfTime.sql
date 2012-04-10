@@ -1,7 +1,7 @@
 USE [TimeControlServer]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetUsersRunningOutOfTime]    Script Date: 04/10/2012 17:21:52 ******/
+/****** Object:  StoredProcedure [dbo].[GetUsersRunningOutOfTime]    Script Date: 04/10/2012 17:29:26 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -18,7 +18,8 @@ from Users us
 left join PhoneNUmbers pn
 on us.UserId = pn.UserId
 where ((DATEDIFF(MINUTE, GETDATE(), deadline) <=60 and hourWarning=0)
-or (DATEDIFF(MINUTE, GETDATE(), deadline) <=5 and [5minutesWarning]=0))
+or (DATEDIFF(MINUTE, GETDATE(), deadline) <=5 and [5minutesWarning]=0)
+or (deadline < GETDATE() and OutOfTime=0))
 and OutOfTime = 0;
 
 update Users
@@ -31,6 +32,7 @@ on us.UserId = urot.UserId;
 
 Select FirstName, Surname, PhoneNumber, warningType from #UsersRunningOutOfTime;
 end
+
 
 GO
 
