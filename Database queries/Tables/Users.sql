@@ -1,7 +1,7 @@
 USE [TimeControlServer]
 GO
 
-/****** Object:  Table [dbo].[Users]    Script Date: 04/10/2012 15:38:25 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 04/10/2012 17:23:47 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -17,6 +17,7 @@ CREATE TABLE [dbo].[Users](
 	[deadline] [datetime] NULL,
 	[hourWarning] [bit] NOT NULL,
 	[5minutesWarning] [bit] NOT NULL,
+	[OutOfTime] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC
@@ -29,5 +30,8 @@ ALTER TABLE [dbo].[Users] ADD  DEFAULT ((0)) FOR [hourWarning]
 GO
 
 ALTER TABLE [dbo].[Users] ADD  DEFAULT ((0)) FOR [5minutesWarning]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  DEFAULT ((0)) FOR [OutOfTime]
 GO
 
