@@ -74,15 +74,23 @@ namespace TimeControlServer
                 string Surname = datatableReader["Surname"].ToString();
                 string PhoneNumber = datatableReader["PhoneNumber"].ToString();
                 string warningType = datatableReader["warningType"].ToString();
+                int minutesLeft =  Convert.ToInt32(datatableReader["minutesLeft"].ToString());
+                string warningMessage;
+                if ((minutesLeft <10 || minutesLeft >20) && (minutesLeft%10 == 1))
+                    warningMessage = "Внимание: на Вашем счету осталась " + minutesLeft.ToString() + " минута!";
+                else
+                    if ((minutesLeft < 10 || minutesLeft > 20) && ((minutesLeft % 10 == 2) || (minutesLeft % 10 == 3) || (minutesLeft % 10 == 4)))
+                        warningMessage = "Внимание: на Вашем счету остались " + minutesLeft.ToString() + " минуты!";
+                    else
+                        warningMessage = "Внимание: на Вашем счету осталось " + minutesLeft.ToString() + " минут!";
+
                 Message mes = new Message();
                 mes.To = PhoneNumber;
                 switch (warningType)
                 {
                     case "hour":
-                        mes.text = "Внимание: на Вашем счету остался 1 час!";
-                        break;
                     case "5minutes":
-                        mes.text = "Внимание: на Вашем счету осталось пять минут!";
+                        mes.text = warningMessage;
                         break;
                     case "OutOfTime":
                         mes.text = "Ваше время вышло";
