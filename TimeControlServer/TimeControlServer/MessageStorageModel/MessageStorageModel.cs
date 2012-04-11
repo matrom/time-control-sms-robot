@@ -12,10 +12,10 @@ namespace TimeControlServer
         public List<Message> Outbox = new List<Message>();
         public object stopThreadSynch = new object();
         public bool stopThread = false;
-        public DatabaseManager databaseManager = new DatabaseManager();
+        public DatabaseManager databaseManager;
         public MessageStorageModel()
         {
-
+            databaseManager = new DatabaseManager(Outbox);
         }
         /*public void run()
         {
