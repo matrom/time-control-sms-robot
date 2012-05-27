@@ -19,12 +19,6 @@ CREATE procedure [dbo].[ProcessMessage]
 	@ts datetime
 as 
 begin
--- Find ID of sender and receiver
-declare @senderId int;
-set @senderId = 2;
-declare @receiverId int;
-set @receiverId = 1;
-
 
 merge [Messages] as target
 using (select isnull(@id, NEWID ()) as id, numbersFrom.UserId as [from], numbersTo.UserId as [to], @text as [text], @isprocessed as isProcessed, isnull(@ts, getdate()) as ts from TimeControlServer..PhoneNUmbers numbersFrom
@@ -49,7 +43,7 @@ values (@id, @senderId, @receiverId, @text, 1, isnull(@ts, GETDATE()), (select I
 set @text = 'ECHO: ' + @text;
 
 Insert into [Messages] (id,[from], [to],[text],isProcessed,ts, LogicalFolderId)
-values (@id, @senderId, @receiverId, @text, 0, isnull(@ts, GETDATE()), (select Id from LogicalFolders where Name = 'Outbox'));
+values (@id, @to, @from, @text, 0, isnull(@ts, GETDATE()), (select Id from LogicalFolders where Name = 'Outbox'));
 
 end
 
