@@ -1,7 +1,7 @@
 USE [TimeControlServer]
 GO
 
-/****** Object:  Table [dbo].[Users]    Script Date: 04/10/2012 17:23:47 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 05/28/2012 16:51:10 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,10 +14,11 @@ CREATE TABLE [dbo].[Users](
 	[Surname] [nvarchar](100) NULL,
 	[login] [nvarchar](100) NULL,
 	[passwd] [nvarchar](100) NULL,
-	[deadline] [datetime] NULL,
+	[deadline] [datetime2](7) NULL,
 	[hourWarning] [bit] NOT NULL,
 	[5minutesWarning] [bit] NOT NULL,
 	[OutOfTime] [bit] NOT NULL,
+	[ServiceNotes] [nvarchar](20) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC
@@ -34,4 +35,5 @@ GO
 
 ALTER TABLE [dbo].[Users] ADD  DEFAULT ((0)) FOR [OutOfTime]
 GO
+
 
