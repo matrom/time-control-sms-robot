@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[PhoneNUmbers](
+CREATE TABLE [dbo].[PhoneNumbers](
 	[PhoneId] [int] IDENTITY(1,1) NOT NULL,
 	[UserId] [int] NOT NULL,
 	[PhoneNumber] [nvarchar](50) NOT NULL,
