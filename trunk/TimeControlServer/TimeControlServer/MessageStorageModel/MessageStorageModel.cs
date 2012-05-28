@@ -63,6 +63,8 @@ namespace TimeControlServer
                  {
                      ThreadManager.newMessageInOutbox.Set();
                      // Если письмо уже содержится в Outbox в базе данных, то ничего не произойдёт. Если же его там ещё нет, оно будет добавлено
+                     databaseManager.ProcessMessage(mes, "Outbox");
+                     // Call SMS sender to send message
                      databaseManager.ProcessMessage(mes, "Send");
                      lock (Outbox)
                      {
