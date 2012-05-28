@@ -17,37 +17,6 @@ namespace TimeControlServer
         {
             databaseManager = new DatabaseManager(Outbox);
         }
-        /*public void run()
-        {
-            bool localStop = false;
-            while (!localStop)
-            {
-                List<Message> InboxCashe = new List<Message>();
-                List<Message> OutboxCashe = new List<Message>();
-                bool messageProcessed = false;
-                lock (Inbox)
-                    foreach(Message mes in Inbox)
-                        if (!mes.isProcessed)
-                        {
-                            InboxCashe.Add(new Message(mes));
-                            mes.isProcessed = true;
-                            messageProcessed = true;
-                        }
-                if (messageProcessed)
-                {
-                    ThreadManager.newMessageInInbox.Set();
-                    foreach (Message mes in InboxCashe)
-                        OutboxCashe.Add(processMessage(mes));
-                    lock (Outbox)
-                        foreach (Message mes in OutboxCashe)
-                            Outbox.Add(mes);
-                    ThreadManager.newMessageInOutbox.Set();
-                    processOutbox();
-                }
-                lock (stopThreadSynch)
-                    localStop = stopThread;
-            }
-        }*/
 
         public void run()
         {
@@ -70,21 +39,12 @@ namespace TimeControlServer
                  if (found)
                  {
                      ThreadManager.newMessageInInbox.Set();
-                     databaseManager.LogMessage(mes);
-                     // DEBUG: Imitation of business logic processing
-                     Thread.Sleep(2000);
-                     Message reply = processMessage(mes);
-                     mes.isProcessed = true;
-                     databaseManager.LogMessage(mes);
+                     databaseManager.ProcessMessage(mes, "Inbox");
                      lock (Inbox)
                          foreach (Message m in Inbox)
                              if (m.id == mes.id)
                                  m.isProcessed = true;
                      ThreadManager.newMessageInInbox.Set();
-                     
-                     lock (Outbox)
-                         Outbox.Add(reply);
-                     //ThreadManager.newMessageInOutbox.Set();
                  }
                  found = false;
                  i = 0;
@@ -102,42 +62,18 @@ namespace TimeControlServer
                  if (found)
                  {
                      ThreadManager.newMessageInOutbox.Set();
-                     databaseManager.LogMessage(mes);
-                     // DEBUG: Imitation of message send
-                     Thread.Sleep(2000);
-                     mes.isProcessed = true;
-                     databaseManager.LogMessage(mes);
+                     // Если письмо уже содержится в Outbox в базе данных, то ничего не произойдёт. Если же его там ещё нет, оно будет добавлено
+                     databaseManager.ProcessMessage(mes, "Send");
                      lock (Outbox)
                      {
                          foreach (Message m in Outbox)
                              if (m.id == mes.id)
                                  m.isProcessed = true;
-                         //Outbox.Add(mes);
                      }
                      ThreadManager.newMessageInOutbox.Set();
                  }
              }
         }
 
-        public Message processMessage(Message mes)
-        {
-            Message reply = new Message();
-            //reply.CopyContents(mes);
-            reply.To = mes.From;
-            reply.isProcessed = false;
-            reply.text = "Echo: " + mes.text;
-            return reply;
-        }
-        /*public void processOutbox()
-        {
-            List<Message> OutboxCashe = new List<Message>();
-            lock (Outbox)
-                foreach (Message mes in Outbox)
-                    if (!mes.isProcessed)
-                    {
-                        OutboxCashe.Add(new Message(mes));
-                        mes.isProcessed = true;
-                    }
-        }*/
     }
 }

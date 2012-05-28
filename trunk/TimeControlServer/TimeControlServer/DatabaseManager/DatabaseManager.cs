@@ -33,33 +33,25 @@ namespace TimeControlServer
             }
             return _connectionString;
         }
-        public void LogMessage(Message mes)
+
+        public void ProcessMessage(Message mes, string folder)
         {
-            int result = logAdapter.LogMessage(mes.id, mes.From, mes.To, mes.text, mes.isProcessed, mes.timeStamp);
+            int result = logAdapter.ProcessMessage(mes.id, mes.From, mes.To, mes.text, mes.isProcessed, mes.timeStamp, folder);
             if (result == 0)
             {
                 // handle error
             }
-            
+            GetOutboxFromDb();
         }
 
-        public void CheckUsersStatusRunner()
+        public void GetOutboxFromDb()
         {
-            while (!StopChildThreads)
-            {
-                CheckUsersStatus();
-                Thread.Sleep(180000);
-            }
-        }
-
-        public void CheckUsersStatus()
-        {
-            DataTable dt = new DataTable();
+             DataTable dt = new DataTable();
             SqlConnection sqlConnection1 = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand();
             //SqlDataReader reader;
 
-            cmd.CommandText = "GetUsersRunningOutOfTime";
+            cmd.CommandText = "GetOutbox";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = sqlConnection1;
             using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -70,41 +62,31 @@ namespace TimeControlServer
             bool newMessages = false;
             while (datatableReader.Read())
             {
-                string FirstName = datatableReader["FirstName"].ToString();
-                string Surname = datatableReader["Surname"].ToString();
-                string PhoneNumber = datatableReader["PhoneNumber"].ToString();
-                string warningType = datatableReader["warningType"].ToString();
-                int minutesLeft =  Convert.ToInt32(datatableReader["minutesLeft"].ToString());
-                string warningMessage;
-                if ((minutesLeft <10 || minutesLeft >20) && (minutesLeft%10 == 1))
-                    warningMessage = "Внимание: на Вашем счету осталась " + minutesLeft.ToString() + " минута!";
-                else
-                    if ((minutesLeft < 10 || minutesLeft > 20) && ((minutesLeft % 10 == 2) || (minutesLeft % 10 == 3) || (minutesLeft % 10 == 4)))
-                        warningMessage = "Внимание: на Вашем счету остались " + minutesLeft.ToString() + " минуты!";
-                    else
-                        warningMessage = "Внимание: на Вашем счету осталось " + minutesLeft.ToString() + " минут!";
-
                 Message mes = new Message();
-                mes.To = PhoneNumber;
-                switch (warningType)
-                {
-                    case "hour":
-                    case "5minutes":
-                        mes.text = warningMessage;
-                        break;
-                    case "OutOfTime":
-                        mes.text = "Ваше время вышло";
-                        break;
-                }
+                mes.id = new Guid(datatableReader["id"].ToString());
+                mes.From = datatableReader["from"].ToString();
+                mes.To = datatableReader["to"].ToString();
+                mes.text = datatableReader["text"].ToString();
+                mes.timeStamp = Convert.ToDateTime(datatableReader["ts"].ToString());
+                mes.isProcessed = false;
                 lock (Outbox)
                     Outbox.Add(mes);
                 newMessages = true;
-
             }
-            if (newMessages)
-                ThreadManager.newMessageInOutbox.Set();
-            
+            /*if (newMessages)
+                ThreadManager.newMessageInOutbox.Set();*/
         }
+
+        public void CheckUsersStatusRunner()
+        {
+            while (!StopChildThreads)
+            {
+                GetOutboxFromDb();
+                Thread.Sleep(180000);
+            }
+        }
+
+        
         public void Dispose()
         {
             StopChildThreads = true;
