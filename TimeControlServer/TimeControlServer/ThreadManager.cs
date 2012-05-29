@@ -14,7 +14,6 @@ namespace TimeControlServer
         SummaryController summaryController;
         public static EventWaitHandle newMessageInInbox = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInInbox_view = new AutoResetEvent(false);
-        public static EventWaitHandle newMessageInInbox_sms = new AutoResetEvent(false);
         public static EventWaitHandle newMessageByUser = new AutoResetEvent(false);
         public static EventWaitHandle newMessageByDB = new AutoResetEvent(false);
         public static EventWaitHandle newMessageBySMS = new AutoResetEvent(false);
@@ -22,8 +21,8 @@ namespace TimeControlServer
         public static EventWaitHandle newMessageInOutbox_view = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInOutbox_sms = new AutoResetEvent(false);
         SummaryView summaryView;
-        SMSManager smsManager;
-        Thread smsManagerThread;
+        //SMSManager smsManager;
+        //Thread smsManagerThread;
         private Thread InboxListenerThread;
         private Thread OutboxListenerThread;
         private bool StopListeners = false;
@@ -44,10 +43,10 @@ namespace TimeControlServer
             summaryController.summaryView = this.summaryView;
             summaryControllerThread = new Thread(summaryController.run);
             summaryControllerThread.Start();
-            smsManager = new SMSManager();
-            smsManager.model = messageStorageModel;
-            smsManagerThread = new Thread(smsManager.run);
-            smsManagerThread.Start();
+            //smsManager = new SMSManager();
+            //smsManager.model = messageStorageModel;
+            //smsManagerThread = new Thread(smsManager.run);
+            //smsManagerThread.Start();
             
         }
         public void Dispose()
@@ -57,8 +56,8 @@ namespace TimeControlServer
                 messageStorageModel.stopThread = true;
             lock (summaryController.stopThreadSynch)
                 summaryController.stopThread = true;
-            lock (smsManager.stopThreadSynch)
-                smsManager.stopThread = true;
+            //lock (smsManager.stopThreadSynch)
+            //    smsManager.stopThread = true;
         }
         public void InboxListener()
         {
@@ -68,7 +67,6 @@ namespace TimeControlServer
                 if (success)
                 {
                     ThreadManager.newMessageInInbox_view.Set();
-                    ThreadManager.newMessageInInbox_sms.Set();
                 }
             }
         }

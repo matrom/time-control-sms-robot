@@ -33,6 +33,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxMessageText = new System.Windows.Forms.TextBox();
             this.buttonEmulateSMSReceive = new System.Windows.Forms.Button();
+            this.listBoxSendMessages = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -79,11 +81,31 @@
             this.buttonEmulateSMSReceive.UseVisualStyleBackColor = true;
             this.buttonEmulateSMSReceive.Click += new System.EventHandler(this.buttonEmulateSMSReceive_Click);
             // 
+            // listBoxSendMessages
+            // 
+            this.listBoxSendMessages.FormattingEnabled = true;
+            this.listBoxSendMessages.Location = new System.Drawing.Point(482, 77);
+            this.listBoxSendMessages.Name = "listBoxSendMessages";
+            this.listBoxSendMessages.ScrollAlwaysVisible = true;
+            this.listBoxSendMessages.Size = new System.Drawing.Size(389, 121);
+            this.listBoxSendMessages.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(540, 45);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Send messages:";
+            // 
             // SmsEmulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 318);
+            this.ClientSize = new System.Drawing.Size(961, 318);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.listBoxSendMessages);
             this.Controls.Add(this.buttonEmulateSMSReceive);
             this.Controls.Add(this.textBoxMessageText);
             this.Controls.Add(this.label2);
@@ -103,5 +125,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxMessageText;
         private System.Windows.Forms.Button buttonEmulateSMSReceive;
+        private System.Windows.Forms.ListBox listBoxSendMessages;
+        private System.Windows.Forms.Label label3;
     }
 }
