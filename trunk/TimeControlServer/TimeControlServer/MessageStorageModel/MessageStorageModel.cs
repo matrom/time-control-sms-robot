@@ -13,9 +13,11 @@ namespace TimeControlServer
         public object stopThreadSynch = new object();
         public bool stopThread = false;
         public DatabaseManager databaseManager;
+        SMSManager smsManager;
         public MessageStorageModel()
         {
             databaseManager = new DatabaseManager(Outbox);
+            smsManager = new SMSManager(this);
         }
 
         public void run()
@@ -65,6 +67,7 @@ namespace TimeControlServer
                      // Если письмо уже содержится в Outbox в базе данных, то ничего не произойдёт. Если же его там ещё нет, оно будет добавлено
                      databaseManager.ProcessMessage(mes, "Outbox");
                      // Call SMS sender to send message
+                     smsManager.SendSms(mes);
                      databaseManager.ProcessMessage(mes, "Send");
                      lock (Outbox)
                      {

@@ -11,7 +11,9 @@ namespace TimeControlServer
 {
     public partial class SmsEmulator : Form
     {
-        public Message mes;// = new Message();
+        public List<Message> justReceived = new List<Message>();
+        delegate void SendMessageCallback(Message mes);
+        //public Message mes;// = new Message();
         public SmsEmulator()
         {
             InitializeComponent();
@@ -19,10 +21,26 @@ namespace TimeControlServer
 
         private void buttonEmulateSMSReceive_Click(object sender, EventArgs e)
         {
+            Message mes = new Message();
             mes = new Message();
             mes.From = textBoxFrom.Text;
             mes.text = textBoxMessageText.Text;
-            ThreadManager.newMessageBySMS.Set();
+            lock(justReceived)
+                justReceived.Add(mes);
+            //ThreadManager.newMessageBySMS.Set();
         }
+        public void sendMessage(Message mes)
+        {
+            if (this.listBoxSendMessages.InvokeRequired)
+            {
+                SendMessageCallback d = new SendMessageCallback(sendMessage);
+                this.Invoke(d, new object[] { mes });
+            }
+            else
+            {
+                listBoxSendMessages.Items.Insert(0, mes.ToString());
+            }
+        }
+
     }
 }
