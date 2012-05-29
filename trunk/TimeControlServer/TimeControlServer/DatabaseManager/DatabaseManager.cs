@@ -70,7 +70,14 @@ namespace TimeControlServer
                 mes.timeStamp = Convert.ToDateTime(datatableReader["ts"].ToString());
                 mes.isProcessed = false;
                 lock (Outbox)
-                    Outbox.Add(mes);
+                {
+                    bool alreadyExists = false;
+                    foreach (Message outboxMessage in Outbox)
+                        if (outboxMessage.id == mes.id)
+                            alreadyExists = true;
+                    if (!alreadyExists)
+                        Outbox.Add(mes);
+                }
                 newMessages = true;
             }
             /*if (newMessages)
