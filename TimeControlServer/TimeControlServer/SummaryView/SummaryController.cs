@@ -14,13 +14,13 @@ namespace TimeControlServer
         private Stack<messageSource> messageSources = new Stack<messageSource>();
         private Thread InboxListenerThread;
         private Thread OutboxListenerThread;
-        public SummaryController()
-        {
-        }
+        private Thread summaryControllerThread;
         public SummaryController(MessageStorageModel model, SummaryView summaryView)
         {
             this.model = model;
             this.summaryView = summaryView;
+            summaryControllerThread = new Thread(run);
+            summaryControllerThread.Start();
         }
         public object stopThreadSynch = new object();
         public bool stopThread = false;
@@ -37,7 +37,7 @@ namespace TimeControlServer
             while (!localStop)
             {
                 SummaryController.newMessage.WaitOne();
-                int sourcesQty = 0; 
+                int sourcesQty = 0;
                 lock (messageSources)
                     sourcesQty = messageSources.Count;
                 while (sourcesQty > 0)
@@ -48,24 +48,15 @@ namespace TimeControlServer
                         source = messageSources.Pop();
                         sourcesQty = messageSources.Count;
                     }
-
+                    string logMessage = "";
                     if (source == messageSource.Inbox)
-                    {
-
-                        lock (summaryView.InboxCashe)
-                        {
-                            summaryView.ModifyInboxOrOutbox(source);
-                        }
-                        lock (summaryView.Log)
-                            summaryView.AddLogMessage("Inbox updated");
-                    }
+                        logMessage = "Inbox updated";
                     if (source == messageSource.Outbox)
-                    {
-                        summaryView.ModifyInboxOrOutbox(source);
-                        lock (summaryView.Log)
-                            summaryView.AddLogMessage("Outbox updated");
-                    }
+                        logMessage = "Outbox updated";
 
+                    summaryView.ModifyInboxOrOutbox(source);
+                    lock (summaryView.Log)
+                        summaryView.AddLogMessage(logMessage);
                     lock (stopThreadSynch)
                         localStop = stopThread;
                 }
@@ -75,7 +66,7 @@ namespace TimeControlServer
         {
             while (!StopListeners)
             {
-                bool success = ThreadManager.newMessageInInbox_view.WaitOne(5000);
+                bool success = ThreadManager.newMessageInInbox.WaitOne(5000);
                 if (success)
                 {
                     lock (messageSources)
@@ -89,7 +80,7 @@ namespace TimeControlServer
         {
             while (!StopListeners)
             {
-                bool success = ThreadManager.newMessageInOutbox_view.WaitOne(5000);
+                bool success = ThreadManager.newMessageInOutbox.WaitOne(5000);
                 if (success)
                 {
                     lock (messageSources)
@@ -101,6 +92,8 @@ namespace TimeControlServer
         
         public void Dispose()
         {
+            lock (stopThreadSynch)
+                stopThread = true;
             StopListeners = true;
         }
     }
