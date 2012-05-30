@@ -11,19 +11,22 @@ namespace TimeControlServer
 {
     public partial class SummaryView : Form
     {
-        public Message messageToSend = new Message();
         public List<string> Log = new List<string>();
-        public List<Message> OutboxCashe = new List<Message>();
-        public List<Message> InboxCashe = new List<Message>();
+        public BindingList<Message> OutboxCashe = new BindingList<Message>();
+        public BindingList<Message> InboxCashe = new BindingList<Message>();
         delegate void AddLogItemCallback(string text);
         delegate void ModifyInboxOrOutboxCallback(messageSource source);
-       
+        MessageStorageModel messageStorageModel;
         ThreadManager threadManager;
         public SummaryView()
         {
             InitializeComponent();
-            threadManager = new ThreadManager(this);
+            messageStorageModel = new MessageStorageModel();
+            threadManager = new ThreadManager(this, messageStorageModel);
+            dataGridViewOutbox.DataSource = OutboxCashe;
+            dataGridViewInbox.DataSource = InboxCashe;
         }
+
         public void AddLogMessage(string message)
         {
             if (this.listBoxLog.InvokeRequired)
@@ -51,24 +54,42 @@ namespace TimeControlServer
             {
                 if (source == messageSource.Inbox)
                 {
-                    listBoxInbox.Items.Clear();
-                    foreach (Message mes in InboxCashe)
-                        listBoxInbox.Items.Insert(0, mes.ToString());
+                    lock (messageStorageModel.Inbox)
+                    {
+                        bool alreadyExist = false;
+                        foreach (Message mes in messageStorageModel.Inbox)
+                        {
+                            alreadyExist = false;
+                            for (int i = 0; i<InboxCashe.Count; i++)
+                                if (mes.id == InboxCashe[i].id)
+                                {
+                                    alreadyExist = true;
+                                    InboxCashe[i] = mes;
+                                }
+                            if (!alreadyExist)
+                                InboxCashe.Add(mes);
+                        }
+                    }
                 }
                 else
                 {
-                    listBoxOutbox.Items.Clear();
-                    foreach (Message mes in OutboxCashe)
-                        listBoxOutbox.Items.Insert(0, mes.ToString());
-
+                    lock (messageStorageModel.Outbox)
+                    {
+                        bool alreadyExist = false;
+                        foreach (Message mes in messageStorageModel.Outbox)
+                        {
+                            alreadyExist = false;
+                            for (int i = 0; i < OutboxCashe.Count; i++)
+                                if (mes.id == OutboxCashe[i].id)
+                                {
+                                    alreadyExist = true;
+                                    OutboxCashe[i] = mes;
+                                }
+                            if (!alreadyExist)
+                                OutboxCashe.Add(mes);
+                        }
+                    }
                 }
-
-                //Inbox.Add(message);
-                /*listBoxLog.Items.Clear();
-                foreach (string str in Log)*/
-                
-                //foreach (
-                //listBoxInbox.Items.Add(message);
             }
         }
 
@@ -76,25 +97,23 @@ namespace TimeControlServer
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            lock (this.messageToSend)
-            {
-                this.messageToSend.From = "Server";
-                this.messageToSend.To = textBoxNumber.Text;
-                this.messageToSend.text = textBoxMessageText.Text;
-            }
-            ThreadManager.newMessageByUser.Set();
-            // Debug code, need to delete
-            /*MessageStorageModel model = new MessageStorageModel();
-            model.Inbox.Add(this.messageToSend);
-            model.stopThread = true;
-            model.run();
-            foreach (Message mes in model.Outbox)
-                listBoxOutbox.Items.Add(mes.ToString());*/
+            Message mes = new Message();
+            mes.From = "Server";
+            mes.To = textBoxNumber.Text;
+            mes.text = textBoxMessageText.Text;
+            messageStorageModel.addMessage(mes, "Outbox");
         }
 
-        private void SummaryView_Load(object sender, EventArgs e)
+        private void SummaryView_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //threadManager.Dispose();
+            Application.Exit();
+            //Environment.Exit();
+        }
 
+        private void checkBoxToAllUsers_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxNumber.Enabled = !checkBoxToAllUsers.Checked;
         }
     }
 }

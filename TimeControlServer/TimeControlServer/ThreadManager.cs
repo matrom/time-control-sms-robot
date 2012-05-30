@@ -8,56 +8,37 @@ namespace TimeControlServer
 {
     class ThreadManager : IDisposable 
     {
-        Thread messageStorageModelThread;
-        MessageStorageModel messageStorageModel;
         Thread summaryControllerThread;
         SummaryController summaryController;
         public static EventWaitHandle newMessageInInbox = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInInbox_view = new AutoResetEvent(false);
-        public static EventWaitHandle newMessageByUser = new AutoResetEvent(false);
         public static EventWaitHandle newMessageByDB = new AutoResetEvent(false);
         public static EventWaitHandle newMessageBySMS = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInOutbox = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInOutbox_view = new AutoResetEvent(false);
         public static EventWaitHandle newMessageInOutbox_sms = new AutoResetEvent(false);
         SummaryView summaryView;
-        //SMSManager smsManager;
-        //Thread smsManagerThread;
         private Thread InboxListenerThread;
         private Thread OutboxListenerThread;
         private bool StopListeners = false;
-        public ThreadManager(SummaryView view)
+        public ThreadManager(SummaryView view, MessageStorageModel model)
         {
             InboxListenerThread = new Thread(InboxListener);
             InboxListenerThread.Start();
             OutboxListenerThread = new Thread(OutboxListener);
             OutboxListenerThread.Start();
-
-
             summaryView = view;
-            messageStorageModel = new MessageStorageModel();
-            messageStorageModelThread = new Thread(messageStorageModel.run);
-            messageStorageModelThread.Start();
             summaryController = new SummaryController();
-            summaryController.model = messageStorageModel;
+            summaryController.model = model;
             summaryController.summaryView = this.summaryView;
             summaryControllerThread = new Thread(summaryController.run);
             summaryControllerThread.Start();
-            //smsManager = new SMSManager();
-            //smsManager.model = messageStorageModel;
-            //smsManagerThread = new Thread(smsManager.run);
-            //smsManagerThread.Start();
-            
         }
         public void Dispose()
         {
             StopListeners = true;
-            lock (messageStorageModel.stopThreadSynch)
-                messageStorageModel.stopThread = true;
             lock (summaryController.stopThreadSynch)
                 summaryController.stopThread = true;
-            //lock (smsManager.stopThreadSynch)
-            //    smsManager.stopThread = true;
         }
         public void InboxListener()
         {

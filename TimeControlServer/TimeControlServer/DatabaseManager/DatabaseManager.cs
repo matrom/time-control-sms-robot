@@ -59,7 +59,6 @@ namespace TimeControlServer
                 da.Fill(dt);
             }
             DataTableReader datatableReader = dt.CreateDataReader();
-            bool newMessages = false;
             while (datatableReader.Read())
             {
                 Message mes = new Message();
@@ -78,10 +77,7 @@ namespace TimeControlServer
                     if (!alreadyExists)
                         Outbox.Add(mes);
                 }
-                newMessages = true;
             }
-            /*if (newMessages)
-                ThreadManager.newMessageInOutbox.Set();*/
         }
 
         public void CheckUsersStatusRunner()
