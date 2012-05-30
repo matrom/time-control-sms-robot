@@ -30,26 +30,31 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxNumber = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBoxMessageText = new System.Windows.Forms.TextBox();
             this.buttonSend = new System.Windows.Forms.Button();
             this.listBoxLog = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.listBoxInbox = new System.Windows.Forms.ListBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.listBoxOutbox = new System.Windows.Forms.ListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dataGridViewInbox = new System.Windows.Forms.DataGridView();
+            this.dataGridViewOutbox = new System.Windows.Forms.DataGridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxToAllUsers = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInbox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOutbox)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(69, 17);
+            this.label1.Location = new System.Drawing.Point(21, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 0;
@@ -57,32 +62,26 @@
             // 
             // textBoxNumber
             // 
-            this.textBoxNumber.Location = new System.Drawing.Point(119, 14);
+            this.textBoxNumber.Location = new System.Drawing.Point(71, 19);
             this.textBoxNumber.Name = "textBoxNumber";
             this.textBoxNumber.Size = new System.Drawing.Size(100, 20);
             this.textBoxNumber.TabIndex = 1;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 86);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Message text";
-            // 
             // textBoxMessageText
             // 
-            this.textBoxMessageText.Location = new System.Drawing.Point(119, 68);
+            this.textBoxMessageText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMessageText.Location = new System.Drawing.Point(23, 45);
             this.textBoxMessageText.Multiline = true;
             this.textBoxMessageText.Name = "textBoxMessageText";
             this.textBoxMessageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxMessageText.Size = new System.Drawing.Size(230, 82);
+            this.textBoxMessageText.Size = new System.Drawing.Size(230, 88);
             this.textBoxMessageText.TabIndex = 3;
             // 
             // buttonSend
             // 
-            this.buttonSend.Location = new System.Drawing.Point(15, 127);
+            this.buttonSend.Location = new System.Drawing.Point(24, 138);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 4;
@@ -92,22 +91,14 @@
             // 
             // listBoxLog
             // 
-            this.listBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxLog.FormattingEnabled = true;
-            this.listBoxLog.Location = new System.Drawing.Point(15, 236);
+            this.listBoxLog.Location = new System.Drawing.Point(6, 16);
             this.listBoxLog.Name = "listBoxLog";
-            this.listBoxLog.Size = new System.Drawing.Size(334, 69);
+            this.listBoxLog.Size = new System.Drawing.Size(435, 134);
             this.listBoxLog.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 201);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Log:";
             // 
             // label4
             // 
@@ -118,17 +109,6 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Inbox:";
             // 
-            // listBoxInbox
-            // 
-            this.listBoxInbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxInbox.FormattingEnabled = true;
-            this.listBoxInbox.Location = new System.Drawing.Point(3, 26);
-            this.listBoxInbox.Name = "listBoxInbox";
-            this.listBoxInbox.Size = new System.Drawing.Size(142, 251);
-            this.listBoxInbox.TabIndex = 8;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -138,62 +118,119 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Outbox:";
             // 
-            // listBoxOutbox
-            // 
-            this.listBoxOutbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxOutbox.FormattingEnabled = true;
-            this.listBoxOutbox.Location = new System.Drawing.Point(3, 26);
-            this.listBoxOutbox.Name = "listBoxOutbox";
-            this.listBoxOutbox.Size = new System.Drawing.Size(164, 251);
-            this.listBoxOutbox.TabIndex = 10;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(355, 33);
+            this.splitContainer1.Location = new System.Drawing.Point(12, 12);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.listBoxInbox);
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridViewInbox);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.listBoxOutbox);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewOutbox);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
-            this.splitContainer1.Size = new System.Drawing.Size(322, 279);
-            this.splitContainer1.SplitterDistance = 148;
+            this.splitContainer1.Size = new System.Drawing.Size(716, 256);
+            this.splitContainer1.SplitterDistance = 359;
             this.splitContainer1.TabIndex = 11;
+            // 
+            // dataGridViewInbox
+            // 
+            this.dataGridViewInbox.AllowUserToAddRows = false;
+            this.dataGridViewInbox.AllowUserToDeleteRows = false;
+            this.dataGridViewInbox.AllowUserToOrderColumns = true;
+            this.dataGridViewInbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewInbox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInbox.Location = new System.Drawing.Point(3, 26);
+            this.dataGridViewInbox.Name = "dataGridViewInbox";
+            this.dataGridViewInbox.ReadOnly = true;
+            this.dataGridViewInbox.Size = new System.Drawing.Size(353, 227);
+            this.dataGridViewInbox.TabIndex = 9;
+            // 
+            // dataGridViewOutbox
+            // 
+            this.dataGridViewOutbox.AllowUserToAddRows = false;
+            this.dataGridViewOutbox.AllowUserToDeleteRows = false;
+            this.dataGridViewOutbox.AllowUserToOrderColumns = true;
+            this.dataGridViewOutbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewOutbox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOutbox.Location = new System.Drawing.Point(4, 26);
+            this.dataGridViewOutbox.Name = "dataGridViewOutbox";
+            this.dataGridViewOutbox.ReadOnly = true;
+            this.dataGridViewOutbox.Size = new System.Drawing.Size(346, 227);
+            this.dataGridViewOutbox.TabIndex = 11;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.checkBoxToAllUsers);
+            this.groupBox1.Controls.Add(this.textBoxNumber);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.textBoxMessageText);
+            this.groupBox1.Controls.Add(this.buttonSend);
+            this.groupBox1.Location = new System.Drawing.Point(465, 274);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(265, 167);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Send message";
+            // 
+            // checkBoxToAllUsers
+            // 
+            this.checkBoxToAllUsers.AutoSize = true;
+            this.checkBoxToAllUsers.Location = new System.Drawing.Point(177, 22);
+            this.checkBoxToAllUsers.Name = "checkBoxToAllUsers";
+            this.checkBoxToAllUsers.Size = new System.Drawing.Size(76, 17);
+            this.checkBoxToAllUsers.TabIndex = 2;
+            this.checkBoxToAllUsers.Text = "to all users";
+            this.checkBoxToAllUsers.UseVisualStyleBackColor = true;
+            this.checkBoxToAllUsers.CheckedChanged += new System.EventHandler(this.checkBoxToAllUsers_CheckedChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.listBoxLog);
+            this.groupBox2.Location = new System.Drawing.Point(12, 274);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(447, 166);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Log";
             // 
             // SummaryView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(689, 314);
+            this.ClientSize = new System.Drawing.Size(740, 451);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.listBoxLog);
-            this.Controls.Add(this.buttonSend);
-            this.Controls.Add(this.textBoxMessageText);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBoxNumber);
-            this.Controls.Add(this.label1);
             this.Name = "SummaryView";
             this.Text = "Time control server";
-            this.Load += new System.EventHandler(this.SummaryView_Load);
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SummaryView_FormClosed);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInbox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOutbox)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -201,16 +238,17 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxNumber;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxMessageText;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.ListBox listBoxLog;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ListBox listBoxInbox;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ListBox listBoxOutbox;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox checkBoxToAllUsers;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView dataGridViewInbox;
+        private System.Windows.Forms.DataGridView dataGridViewOutbox;
     }
 }
 

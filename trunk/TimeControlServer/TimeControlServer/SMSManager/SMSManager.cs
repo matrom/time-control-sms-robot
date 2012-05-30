@@ -43,9 +43,11 @@ namespace TimeControlServer
                 {
                     if (emulator.justReceived.Count > 0)
                     {
-                        lock (model.Inbox)
+                        /*lock (model.Inbox)
                             foreach (Message mes in emulator.justReceived)
-                                model.Inbox.Add(mes);
+                                model.Inbox.Add(mes);*/
+                        foreach (Message mes in emulator.justReceived)
+                            model.addMessage(mes, "Inbox");
                         emulator.justReceived.Clear();
                     }
                 }
