@@ -4,9 +4,8 @@
 
 insert into Users(FirstName, Surname, login, passwd, deadline, ServiceNotes)
 values ('', 'Bank', null, null, cast('12-06-1748' as datetime2), 'Bank'),
-('', 'Police', null, null, cast('12-06-1748' as datetime2), 'Police'),
+('', 'Police', null, null, cast(45000 as datetime), 'Police'),
 ('John', 'Dou', null, null, cast(45000 as datetime), null),
-('Abraham', 'Adners', 'aanders', 'qwerty', dateadd(hh, 2, GETDATE()), null),
 ('Abraham', 'Adners', 'aanders', 'qwerty', dateadd(hh, 2, GETDATE()), null),
 ('Bob', 'Baker', 'bbaker', 'qwerty', dateadd(hh, 2, GETDATE()), null),
 ('Casey', 'Calahan', 'ccalahan', 'qwerty', dateadd(hh, 2, GETDATE()), null),
