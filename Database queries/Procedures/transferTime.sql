@@ -24,6 +24,12 @@ declare @performTransaction smallint;
 -- -1 - authentication failed (incorrect password or user name)
 set @performTransaction = 0;
 
+if @minutesAmount is null
+begin
+	set @performTransaction = -1;
+	set @resultMessage = 'Time sum not specified';
+end
+
 if @minutesAmount < 0
 begin
 	set @performTransaction = -1;
