@@ -1,0 +1,1 @@
+SMS robot created for LARP "In time" (based on original 2011 year movie). Supports in-game money transfer and information requests: when user send SMS request to SIM card connected to PC via 3G modem, program processes request and send response. Also, program contains some game-specific business logic.
